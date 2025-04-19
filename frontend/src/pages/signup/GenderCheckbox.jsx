@@ -1,38 +1,27 @@
 import React from "react";
 
-const GenderCheckbox = ({onCheckboxChange, selectedGender}) => {
+const GenderCheckbox = ({ onCheckboxChange, selectedGender }) => {
   return (
-    <div className="flex">
-      <div className="form-control">
+    <div className="flex justify-around text-white mt-4 mb-2">
+      {["male", "female", "other"].map((gender) => (
         <label
-          className={`label gap-2 cursor-pointer ${
-            selectedGender === "male" ? "selected" : ""
-          }`}
+          key={gender}
+          className={`flex items-center gap-2
+            ${
+              selectedGender === gender
+            }`}
         >
-          <span className="label-text">Male</span>
           <input
-            type="checkbox"
-            checked={selectedGender === "male"}
-            onChange={() => onCheckboxChange("male")}
-            className="checkbox border-slate-900"
+            type="radio"
+            name="gender"
+            value={gender}
+            checked={selectedGender === gender}
+            onChange={() => onCheckboxChange(gender)}
+            className="h-5 w-5 form-radio text-purple-700 accent-purple-700"
           />
+          <span className="capitalize">{gender}</span>
         </label>
-      </div>
-      <div className="form-control">
-        <label
-          className={`label gap-2 cursor-pointer ${
-            selectedGender === "female" ? "selected" : ""
-          }`}
-        >
-          <span className="label-text">Female</span>
-          <input
-            type="checkbox"
-            checked={selectedGender === "female"}
-            onChange={() => onCheckboxChange("female")}
-            className="checkbox border-slate-900"
-          />
-        </label>
-      </div>
+      ))}
     </div>
   );
 };

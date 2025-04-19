@@ -29,11 +29,11 @@ export const SearchInput = () => {
       <input
         type="text"
         placeholder="Search.."
-        className="input input-bordered rounded-full "
+        className="w-full input input-bordered rounded-full focus:ring-2 focus:ring-purple-700"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <button className="btn btn-circle bg-sky-500 text-white">
+      <button className="btn btn-circle bg-gradient-to-br from-pink-700 to-blue-700 text-white hover:opacity-50">
         <IoSearch className="w-6 h-6 outline-none" />
       </button>
     </form>
