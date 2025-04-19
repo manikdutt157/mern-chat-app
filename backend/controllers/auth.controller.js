@@ -60,7 +60,7 @@ export const login = async (req, res) => {
       user?.password || ""
     );
 
-    if (!user || isPasswordCorrect) {
+    if (!user || !isPasswordCorrect) {
       return res.status(400).json({ error: "Invalid username and password" });
     }
 
