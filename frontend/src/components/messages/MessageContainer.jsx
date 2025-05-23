@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Messages from "./Messages";
 import MessageInput from "./MessageInput";
 import { TiMessages } from "react-icons/ti";
+import { IoArrowBack } from "react-icons/io5";
 import useConversation from "../../zustand/useConversation";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -19,11 +20,19 @@ const MessageContainer = () => {
         <NoChatSelected />
       ) : (
         <>
-          <div className="border-b-2 px-4 py-4 mb-2">
-            <span className="label-text font-">To:</span>{" "}
-            <span className="text-transparent font-bold bg-gradient-to-br from-pink-700 to-blue-700 bg-clip-text">
-              {selectedConversation.fullName}
-            </span>
+          <div className="border-b-2 px-4 py-4 mb-2 flex items-center">
+            <button 
+              onClick={() => setSelectedConversation(null)}
+              className="sm:hidden p-2 hover:bg-gray-700 rounded-full mr-2"
+            >
+              <IoArrowBack size={20} className="text-white" />
+            </button>
+            <div>
+              <span className="label-text">To:</span>{" "}
+              <span className="text-transparent font-bold bg-gradient-to-br from-pink-700 to-blue-700 bg-clip-text">
+                {selectedConversation.fullName}
+              </span>
+            </div>
           </div>
           <Messages />
           <MessageInput />

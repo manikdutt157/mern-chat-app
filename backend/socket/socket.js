@@ -12,10 +12,9 @@ const io = new Server(server, {
   },
 });
 
-
 export const getRecieverSocketId = (recieverId) => {
-    return userSocketMap[recieverId];
-} 
+  return userSocketMap[recieverId];
+};
 
 const userSocketMap = {}; // {userId: socketId}
 
@@ -27,6 +26,28 @@ io.on("connection", (socket) => {
 
   // io.emit is used to send event to all the connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+  // Join group chat rooms
+  socket.on("joinGroup", (groupId) => {
+    socket.join(groupId);
+    console.log(`User ${userId} joined group ${groupId}`);
+  });
+
+  // Leave group chat rooms
+  socket.on("leaveGroup", (groupId) => {
+    socket.leave(groupId);
+    console.log(`User ${userId} left group ${groupId}`);
+  });
+
+  // Handle group messages
+  socket.on("sendGroupMessage", ({ groupId, message }) => {
+    io.to(groupId).emit("newGroupMessage", {
+      sender: userId,
+      message,
+      groupId,
+      timestamp: new Date(),
+    });
+  });
 
   // socket.on is used to listen to the events. can be used both client and server side
   socket.on("disconnect", () => {
