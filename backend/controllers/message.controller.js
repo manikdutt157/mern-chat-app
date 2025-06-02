@@ -148,15 +148,7 @@ export const deleteMessages = async (req, res) => {
     const { messageIds } = req.body;
     const userId = req.user._id;
 
-    console.log("Delete request received:", {
-      messageIds,
-      userId,
-      body: req.body,
-      headers: req.headers
-    });
-
     if (!messageIds || !Array.isArray(messageIds) || messageIds.length === 0) {
-      console.log("Invalid messageIds:", messageIds);
       return res.status(400).json({ error: "No messages to delete" });
     }
 
@@ -166,10 +158,7 @@ export const deleteMessages = async (req, res) => {
       senderId: userId
     });
 
-    console.log("Found messages:", messages.length);
-
     if (messages.length === 0) {
-      console.log("No messages found for deletion");
       return res.status(404).json({ error: "No messages found" });
     }
 
@@ -178,15 +167,11 @@ export const deleteMessages = async (req, res) => {
       _id: { $in: messages.map(msg => msg._id) }
     });
 
-    console.log("Delete result:", deleteResult);
-
     // Update conversations by removing the deleted message IDs
     const updateResult = await Conversation.updateMany(
       { messages: { $in: messages.map(msg => msg._id) } },
       { $pull: { messages: { $in: messages.map(msg => msg._id) } } }
     );
-
-    console.log("Conversation update result:", updateResult);
 
     // Send success response with content-type header
     res.setHeader('Content-Type', 'application/json');
